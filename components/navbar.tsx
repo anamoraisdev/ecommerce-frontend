@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 
 const Navbar = () => {
     const [categories, setCategories] = useState<any[]>([]);
-
+    
+    const fetchCategories = async () => {
+        try {
+            const categoriesData = await service.getData("categories");
+            setCategories(categoriesData);
+        } catch (error) {
+            console.error('Erro ao buscar categorias:', error);
+        }
+    };
     useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const categoriesData = await service.getCategoriesProducts();
-                setCategories(categoriesData);
-            } catch (error) {
-                console.error('Erro ao buscar categorias:', error);
-            }
-        };
         fetchCategories();
     }, []);
 
