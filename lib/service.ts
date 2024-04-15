@@ -1,9 +1,9 @@
 import axios from "axios"
 
 const service = {
-    getCategoriesProducts: async () => {
+    getData: async (url: string) => {
         try {
-            const response = await axios.get("http://localhost:4000/categories");
+            const response = await axios.get(`http://localhost:4000/${url}`);
             const data = response.data; 
             return data;
         } catch (error) {
@@ -11,7 +11,6 @@ const service = {
             throw error; 
         }
     },
-    
 }
 
 export default service
