@@ -25,7 +25,7 @@ const Carousel = ({ images }: propsImages) => {
                 index === currentSlide ? 'block' : 'hidden'
               }`}
             >
-              <Image src={image} alt={`Slide ${index}`}  priority /> 
+              {<Image src={image} alt={`Slide ${index}`}  priority /> }
             </div>
           ))}
         </div>
