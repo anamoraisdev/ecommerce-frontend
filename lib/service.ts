@@ -7,7 +7,7 @@ const service = {
             const data = response.data; 
             return data;
         } catch (error) {
-            console.error("Erro ao obter categorias de produtos:", error);
+            console.error("Erro ao obter dados", error);
             throw error; 
         }
     },
