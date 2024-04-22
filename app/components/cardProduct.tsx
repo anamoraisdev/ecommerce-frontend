@@ -12,7 +12,7 @@ export interface Product {
 const CardProduct: React.FC<{ product: Product }> = ({ product }) => {
     
     return(
-        <div className="border rounded-lg flex flex-col justify-center items-center">
+        <div className="border rounded-lg flex flex-col justify-between items-center w-[12rem] h-[14rem]">
             <img src={product.image_urls[0]} className="w-[12rem] h-[12rem] rounded-t-lg"/>
             
             <h1>{product.name}</h1>
