@@ -8,6 +8,7 @@ import Filter from "../components/filter";
 const Products = ({searchParams}: any) => {
     const category = searchParams.category
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+    const [selectedPrice, setSelectedPrice] = useState(0);
     const [products, setProducts] = useState<Product[]>([]);
     const [productsFilter, setProductsFilter] = useState<Product[]>([]);
   
@@ -20,15 +21,26 @@ const Products = ({searchParams}: any) => {
             console.error('Erro ao buscar produtos:', error);
         }
     };
+
     const filterProducts = () => {
-        if (selectedCategories.length === 0) {
+        if (selectedCategories.length === 0 && selectedPrice === 0) {
             setProductsFilter(products); 
         } 
         else {
-            const response = products.filter((product) => selectedCategories.includes(product.category_id));
-            setProductsFilter(response);
+            let response = products;
+
+            if(selectedCategories.length > 0){
+                response = response.filter((product) => 
+                selectedCategories.includes(product.category_id));
+            }
+            
+            if(selectedPrice > 0){
+                response = response.filter((product) => parseFloat(product.price) <= selectedPrice) 
+            }
+            setProductsFilter(response)
         }
-    }
+    };
+
     const toggleCategory = (categoryId: number, checked: boolean) => {
         if (checked) {
             setSelectedCategories([...selectedCategories, categoryId]);
@@ -37,13 +49,18 @@ const Products = ({searchParams}: any) => {
         }
     };
 
+    const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(event.target.value, 10);
+        setSelectedPrice(value);
+    };
+
     useEffect(() => {
         fetchProducts()
     }, []);
 
     useEffect(() => {
         filterProducts();
-    }, [selectedCategories, products]);
+    }, [selectedCategories, products, selectedPrice]);
 
     useEffect(() => {
         if(category){
@@ -56,9 +73,9 @@ const Products = ({searchParams}: any) => {
 
     return (
         <div className="flex">
-            <Filter toggleCategory={toggleCategory} selectedCategories={selectedCategories}/>
-            
-            <div className="flex justify-center p-4 gap-4">
+            <Filter toggleCategory={toggleCategory} selectedCategories={selectedCategories} selectedPrice={selectedPrice} handleRangeChange={handleRangeChange}/>
+
+            <div className="flex flex-wrap justify-center p-4 gap-4">
                 { productsFilter.length > 0 ? productsFilter.map((product) => <CardProduct key={product.id} product={product}/>) 
                 : <h1>Nenhum produto encontrado</h1>
                 }
