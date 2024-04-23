@@ -7,7 +7,7 @@ import service from "@/lib/service";
 import { useEffect, useState } from "react";
 import { Product } from "@/app/components/cardProduct";
 import Collection from "@/app/components/collection";
-import RootLayout from "@/app/layout";
+
 
 export interface propsImages {
   images: StaticImageData[]
