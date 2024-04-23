@@ -2,7 +2,7 @@
 'use client';
 import CardProduct, { Product } from "@/app/components/cardProduct";
 import service from "@/lib/service";
-import { use, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import Filter from "../components/filter";
 
 const Products = ({ searchParams }: any) => {
@@ -17,7 +17,6 @@ const Products = ({ searchParams }: any) => {
         try {
             const products = await service.getData("products");
             setProducts(products.products);
-            console.log("products", products.products)
         } catch (error) {
             console.error('Erro ao buscar produtos:', error);
         }
