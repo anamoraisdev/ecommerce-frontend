@@ -7,7 +7,9 @@ import Filter from "../components/filter";
 
 const Products = ({ searchParams }: any) => {
     const category = searchParams.category
+    const colletion = searchParams.colletion
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+    const [selectedColletions, setSelectedColletions] = useState<number[]>([]);
     const [selectedPrice, setSelectedPrice] = useState(0);
     const [products, setProducts] = useState<Product[]>([]);
     const [productsFilter, setProductsFilter] = useState<Product[]>([]);
@@ -23,7 +25,7 @@ const Products = ({ searchParams }: any) => {
     };
 
     const filterProducts = () => {
-        if (selectedCategories.length === 0 && selectedPrice === 0 && search === "") {
+        if (selectedCategories.length === 0 && selectedPrice === 0 && search === "" && !selectedCategories) {
             setProductsFilter(products);
         }
         else {
@@ -34,6 +36,12 @@ const Products = ({ searchParams }: any) => {
                     selectedCategories.includes(product.category_id));
             }
 
+            if (selectedColletions.length > 0) {
+                console.log("selectedColletions", selectedColletions)
+                console.log("products", response )
+                console.log(response = response.filter((product) => selectedColletions.includes(product.collection_of_product_id)))
+            }
+
             if (selectedPrice > 0) {
                 response = response.filter((product) => parseFloat(product.price) <= selectedPrice)
             }
@@ -41,6 +49,7 @@ const Products = ({ searchParams }: any) => {
             if (search != "") {
                 response = response.filter((product) => product.name.includes(search))
             }
+          
             setProductsFilter(response)
         }
     };
@@ -50,6 +59,14 @@ const Products = ({ searchParams }: any) => {
             setSelectedCategories([...selectedCategories, categoryId]);
         } else {
             setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
+        }
+    };
+
+    const toggleColletion = (colletionId: number, checked: boolean) => {
+        if (checked) {
+            setSelectedColletions([...selectedColletions, colletionId]);
+        } else {
+            setSelectedColletions(selectedColletions.filter(id => id !== colletionId));
         }
     };
 
@@ -64,7 +81,7 @@ const Products = ({ searchParams }: any) => {
 
     useEffect(() => {
         filterProducts();
-    }, [selectedCategories, products, selectedPrice, search]);
+    }, [selectedColletions,selectedCategories, products, selectedPrice, search]);
 
     useEffect(() => {
         if (category) {
@@ -75,12 +92,23 @@ const Products = ({ searchParams }: any) => {
         }
     }, [category])
 
+    useEffect(() => {
+        if (colletion) {
+            const colletionId = parseInt(colletion as string);
+            if (!isNaN(colletionId)) {
+                setSelectedColletions([colletionId])
+            }
+        }
+    }, [colletion])
+
     return (
 
         <div className="flex">
             <Filter 
                 toggleCategory={toggleCategory} 
+                toggleColletion={toggleColletion}
                 selectedCategories={selectedCategories} 
+                selectedColletions={selectedColletions}
                 selectedPrice={selectedPrice} 
                 handleRangeChange={handleRangeChange} 
                 setSearch={setSearch} 

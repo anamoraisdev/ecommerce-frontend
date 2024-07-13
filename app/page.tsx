@@ -39,8 +39,8 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center">
       <Carousel images={imagesBanner} />
-      {collections && collections?.map((colletion) =>
-        <Collection key={colletion.id} products={colletion.products} name={colletion.name} />
+      {collections && collections?.map((collection) =>
+        <Collection key={collection.id} products={collection.products} name={collection.name} id={collection.id} />
       )}
     </div>
   );

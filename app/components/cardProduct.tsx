@@ -8,6 +8,7 @@ export interface Product {
     image_urls: string[],
     category_id: number,
     price: string,
+    collection_of_product_id: number,
 }
 
 const CardProduct: React.FC<{ product: Product }> = ({ product }) => {
