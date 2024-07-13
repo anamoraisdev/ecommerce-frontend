@@ -4,15 +4,18 @@ import { Dispatch, SetStateAction } from 'react';
 
 interface FilterProps {
     toggleCategory: (categoryId: number, checked: boolean) => void;
+    toggleColletion: (colletionId: number, checked: boolean) => void;
     selectedCategories: number[];
+    selectedColletions: number[];
     selectedPrice: number;
     handleRangeChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     setSearch: Dispatch<SetStateAction<string>>
     search: string;
 }
 
-const Filter: React.FC<FilterProps> = ({ toggleCategory, selectedCategories, selectedPrice, handleRangeChange, setSearch, search}) => {
+const Filter: React.FC<FilterProps> = ({ toggleCategory, toggleColletion, selectedCategories, selectedColletions, selectedPrice, handleRangeChange, setSearch, search}) => {
     const [categories, setCategories] = useState<any[]>([]);
+    const [colletions, setColletions] = useState<any[]>([]);
     
     const fetchCategories = async () => {
         try {
@@ -23,8 +26,18 @@ const Filter: React.FC<FilterProps> = ({ toggleCategory, selectedCategories, sel
         }
     };
 
+    const fetchColletions = async () => {
+        try {
+            const colletionsData = await service.getData("collections_of_products");
+            setColletions(colletionsData.collections_of_products);
+        } catch (error) {
+            console.error('Erro ao buscar colletions:', error);
+        }
+    };
+
     useEffect(() => {
         fetchCategories();
+        fetchColletions()
     }, []);
 
     return (
@@ -37,6 +50,7 @@ const Filter: React.FC<FilterProps> = ({ toggleCategory, selectedCategories, sel
                 value={search}>
             </input>
             <div className="flex flex-col gap-2">
+                
                 <h2 className="text-slate-500 my-2 font-bold text-sm">categories</h2>
                 {categories && categories.map((category) => (
                     <label key={category.id} className="text-sm text-slate-500s">
@@ -50,6 +64,21 @@ const Filter: React.FC<FilterProps> = ({ toggleCategory, selectedCategories, sel
                         {category.name}
                     </label>
                 ))}
+
+                <h2 className="text-slate-500 my-2 font-bold text-sm">colletions</h2> 
+                {colletions && colletions.map((colletion) => 
+                  <label key={colletion.id} className="text-sm text-slate-500s">
+                  <input
+                      className="w-4 h-4 accent-slate-500 mr-2"
+                      type="checkbox"
+                      name={colletion.name}
+                      checked={selectedColletions.includes(colletion.id)}
+                      onChange={(e) => toggleColletion(colletion.id, e.target.checked)}
+                  />
+                  {colletion.name}
+              </label>
+                )}      
+
                 <h2 className="text-slate-500 my-2 font-bold text-sm">maximun price</h2>
                 <div className="flex flex-col gap-2 w-full">
                     <p className="border border-slate-400 py-1 px-2 rounded text-slate-400 ">
