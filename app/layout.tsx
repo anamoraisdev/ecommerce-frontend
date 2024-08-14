@@ -1,3 +1,4 @@
+import { UserProvider } from "./context/userContext";
 import "./globals.css";
 import Navbar from "@/app/components/navbar";
 
@@ -15,7 +16,9 @@ export default function RootLayout({
       </head>
       <body>
         <Navbar />
-        {children}
+        <UserProvider>
+          {children}
+        </UserProvider>
       </body>
     </html>
   );
