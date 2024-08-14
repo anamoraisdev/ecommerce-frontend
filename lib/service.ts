@@ -11,6 +11,19 @@ const service = {
             throw error; 
         }
     },
+    
+    postData: async (url: string, data: object) => {
+        try {
+            const response = await axios.post(`http://localhost:4000/${url}`, data, {
+                headers: { 'Content-Type': 'application/json' }
+            });
+            return response;
+        } catch (error) {
+            console.error("Erro ao enviar dados", error);
+            throw error;
+        }
+    }
+
 }
 
 export default service
