@@ -1,3 +1,4 @@
+import { UserProvider } from "./context/userContext";
 import "./globals.css";
 import Navbar from "@/app/components/navbar";
 
@@ -14,8 +15,10 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
+        <UserProvider>
         <Navbar />
-        {children}
+          {children}
+        </UserProvider>
       </body>
     </html>
   );

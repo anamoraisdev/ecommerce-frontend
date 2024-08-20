@@ -7,6 +7,7 @@ import service from "@/lib/service";
 import { useEffect, useState } from "react";
 import { Product } from "@/app/components/cardProduct";
 import Collection from "@/app/components/collection";
+import { useUser } from "./context/userContext";
 
 
 export interface propsImages {
@@ -20,7 +21,7 @@ export interface CollectionProduct {
 
 export default function Home() {
   const imagesBanner = [banner1, banner2]
-  const [products, setProducts] = useState<Product[]>([]);
+  const {user} = useUser();
   const [collections, setCollections] = useState<CollectionProduct[]>();
 
   const fetchCollections = async () => {
@@ -31,10 +32,14 @@ export default function Home() {
       console.error('Erro ao buscar coleções:', error);
     }
   };
-
+  
   useEffect(() => {
-    fetchCollections()
-  }, []);
+    if (user) {
+      console.log('User logado:', user);
+    } else {
+      console.log('Nenhum usuário logado');
+    }
+  }, [user]);
 
   return (
     <div className="flex min-h-screen flex-col items-center">
