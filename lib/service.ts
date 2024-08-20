@@ -1,9 +1,9 @@
 import axios from "axios"
 
 const service = {
-    getData: async (url: string) => {
+    getData: async (url: string, params?: object) => {
         try {
-            const response = await axios.get(`http://localhost:4000/${url}`);
+            const response = await axios.get(`http://localhost:4000/${url}`, params);
             const data = response.data; 
             return data;
         } catch (error) {

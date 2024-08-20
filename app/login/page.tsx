@@ -1,53 +1,38 @@
 'use client';
-import service from "@/lib/service";
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
+import { UserContext, useUser } from "../context/userContext";
+
 
 const Login = () => {
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
-    const [error, setError] = useState<string | null>(null);
-    const url = new URL(window.location.href);
-    const token = url.searchParams.get('token');
-    
-    const login = async (event: FormEvent) => {
+    const { login, error, user} = useUser();
+   
+    const submitLogin = async (event: FormEvent) => {
         event?.preventDefault()
-        setError(null)
-        try {
-            const user = {
-                user: {
-                    email,
-                    password
-                }
-            };
-            const response = await service.postData("users/sign_in", user);
-            if(response.status === 200){
-                console.log('login bem sucedido')
-                console.log(response)
+        const response = await login(email, password);
+        if(response){
+            console.log(response)
+            setTimeout(() => {
                 window.location.href = 'http://localhost:3000/';
-                
-            }
-
-        } catch (error: any) {
-            setError(error?.response?.data)
+            }, 1000);
+        }else{
+            console.log("error", error)
         }
     }
-    
-    setTimeout(() => {
-        setError(null)
-    },2000)
 
     useEffect(() => {
-        console.log(token)
-        if(token){
-            window.location.href = 'http://localhost:3000/';
-        }
-    })
+        console.log("user", user)
+       if(user){
+           window.location.href = 'http://localhost:3000/';
+       }
+    }, [user]);
 
     return (
         <div className="flex justify-center items-center h-[calc(100vh-128px)] w-full border border-4">
             <div className="flex flex-col items-center gap-4">
-                <form className="flex flex-col w-full justify-center items-center gap-4" onSubmit={(event) => login(event)}>
+                <form className="flex flex-col w-full justify-center items-center gap-4" onSubmit={(event) => submitLogin(event)}>
                     <h1 className="text-lg">Sign in</h1>
                     <input value={email} onChange={(event) => setEmail(event?.target.value)} placeholder="email" className="border border-1 w-full h-10"></input>
                     <input  value={password} onChange={(event) => setPassword(event?.target.value)} placeholder="password" className="border border-1 w-full h-10"></input>

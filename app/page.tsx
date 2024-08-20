@@ -21,7 +21,7 @@ export interface CollectionProduct {
 
 export default function Home() {
   const imagesBanner = [banner1, banner2]
-  const { user } = useUser();
+  const {user} = useUser();
   const [collections, setCollections] = useState<CollectionProduct[]>();
 
   const fetchCollections = async () => {
@@ -32,11 +32,13 @@ export default function Home() {
       console.error('Erro ao buscar coleções:', error);
     }
   };
-
   
   useEffect(() => {
-    console.log(user)
-    fetchCollections()
+    if (user) {
+      console.log('User logado:', user);
+    } else {
+      console.log('Nenhum usuário logado');
+    }
   }, [user]);
 
   return (
