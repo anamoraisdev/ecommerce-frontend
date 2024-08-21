@@ -1,17 +1,25 @@
 'use client'
 import service from "@/lib/service";
+
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { Address } from "../users/registration/page";
 
 export interface User {
-   
-        email: string
+    user:{
 
+        name: string,
+        email: string,
+        password: string,
+        birthDate: string,
+        address: Address
+    }
 }
 interface userContextType {
     user: User | null,
     login: (email: string, password: string) => Promise<object | void>;
     logout: () => void;
     error: string | null;
+    registration: (data:{user: User}) => Promise<any>; 
 };
 
 interface propsProvider {
@@ -24,6 +32,10 @@ const userContextDefaultValues: userContextType = {
     login: async () => { },
     logout: () => { },
     error: null,
+    registration: async (data:{ user: User }) => {
+        // Lógica padrão ou simulada para registro
+        return Promise.resolve();
+    }
 };
 
 export const UserContext = createContext<userContextType>(userContextDefaultValues);
@@ -53,14 +65,35 @@ export function UserProvider({ children }: propsProvider) {
 
         } catch (error: any) {
             setError(error?.response?.data)
+            setTimeout(() => {
+                setError(null);
+            }, 3000);
         }
     }
 
     const logout = () => {
         setUser(null);
         localStorage.removeItem("user");
-        window.location.href = 'http://localhost:3000/login';
+        window.location.href = 'http://localhost:3000/users/login';
     };
+
+    const registration = async(data: { user: User }) => {
+        setError(null)
+        try {
+            const response = await service.postData("users", data);
+            if (response.status === 201) {
+                console.log("response:", response.data.message)
+                
+            }
+
+        } catch (error: any) {
+            console.log(error)
+            setError(error?.response?.data.error)
+            setTimeout(() => {
+                setError(null);
+            }, 3000);
+        }
+    }
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -102,7 +135,8 @@ export function UserProvider({ children }: propsProvider) {
         user: user,
         login: login,
         logout: logout,
-        error: error
+        error: error,
+        registration
     }
 
     return (
