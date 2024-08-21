@@ -35,7 +35,7 @@ const Navbar = () => {
                 {user &&
                     <div className="flex items-center gap-2 ">
                         <BiUserCircle size={22} color="white" />
-                        <p className="text-white">{user.email}</p>
+                        <p className="text-white">{user?.name}</p>
                         <button onClick={() => logout()}> <BiLogOut size={22} color="white"  /></button>
                     </div>}
             </section>
