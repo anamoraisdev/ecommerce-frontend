@@ -1,5 +1,5 @@
 'use client'
-import { useUser } from "@/app/context/userContext"
+import { User, useUser } from "@/app/context/userContext"
 import Link from "next/link"
 import { FormEvent, useState } from "react"
 import { BiRightArrowAlt } from "react-icons/bi"
@@ -31,39 +31,36 @@ const RegistrationPage = () => {
     const [confirmationPassword, setConfirmationPassword] = useState("")
     const [birthDate, setBirthDate] = useState<string>("")
     const [address, setAddress] = useState<Address>(initialAdress)
-    const { registration , error } = useUser()
+    const { registration, error } = useUser()
 
     const submitRegistration = (event: FormEvent) => {
         event?.preventDefault()
-        const user = 
-        {
-            user: {
-                name: name,
-                email: email,
-                password: password,
-                birthDate: birthDate,
-                address: {
-                  street: address.street,
-                  neighborhood: address.neighborhood,
-                  number: address.number,
-                  complement: address.complement,
-                  postalCode: address.postalCode,
-                  city: address.city,
-                  state: address.state
-                }
+        const user: User = {
+            name: name,
+            email: email,
+            password: password,
+            birthDate: birthDate,
+            address: {
+                street: address.street,
+                neighborhood: address.neighborhood,
+                number: address.number,
+                complement: address.complement,
+                postalCode: address.postalCode,
+                city: address.city,
+                state: address.state
             }
-
         }
         registration({user})
+        console.log("user", user)
     }
     const handleChangeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setAddress({ ...address, [name]: value });
     };
 
-    
+
     return (
-        <div className="flex flex-col justify-between pt-10 items-center h-[calc(100vh-128px)] w-full gap-10">
+        <div className="flex flex-col justify-between pt-10 items-center h-[calc(100vh-128px)] w-full">
             <form className="flex flex-col justify-center items-center gap-4  w-full lg:w-[50%]" onSubmit={(event) => submitRegistration(event)}>
                 <h1 className="text-2xl">Registration</h1>
                 <h2>Personal data</h2>

@@ -5,14 +5,13 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 import { Address } from "../users/registration/page";
 
 export interface User {
-    user:{
-
+    
         name: string,
         email: string,
         password: string,
         birthDate: string,
         address: Address
-    }
+    
 }
 interface userContextType {
     user: User | null,
@@ -83,7 +82,8 @@ export function UserProvider({ children }: propsProvider) {
             const response = await service.postData("users", data);
             if (response.status === 201) {
                 console.log("response:", response.data.message)
-                
+                window.location.href = 'http://localhost:3000/users/login';
+            
             }
 
         } catch (error: any) {
