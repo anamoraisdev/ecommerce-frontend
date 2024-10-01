@@ -1,6 +1,8 @@
 import service from "@/lib/service";
 import { useEffect, useState } from "react";
 import { Dispatch, SetStateAction } from 'react';
+import { categoriesData } from "../api/categories";
+import { collectionsData } from "../api/collections";
 
 interface FilterProps {
     toggleCategory: (categoryId: number, checked: boolean) => void;
@@ -18,21 +20,23 @@ const Filter: React.FC<FilterProps> = ({ toggleCategory, toggleColletion, select
     const [colletions, setColletions] = useState<any[]>([]);
     
     const fetchCategories = async () => {
-        try {
-            const categoriesData = await service.getData("categories");
-            setCategories(categoriesData);
-        } catch (error) {
-            console.error('Erro ao buscar categorias:', error);
-        }
+        setCategories(categoriesData)
+        //try {
+        //    const categoriesData = await service.getData("categories");
+        //    setCategories(categoriesData);
+        //} catch (error) {
+        //    console.error('Erro ao buscar categorias:', error);
+        //}
     };
 
     const fetchColletions = async () => {
-        try {
-            const colletionsData = await service.getData("collections_of_products");
-            setColletions(colletionsData.collections_of_products);
-        } catch (error) {
-            console.error('Erro ao buscar colletions:', error);
-        }
+        setColletions(collectionsData)
+        //try {
+        //    const colletionsData = await service.getData("collections_of_products");
+        //    setColletions(colletionsData.collections_of_products);
+        //} catch (error) {
+        //    console.error('Erro ao buscar colletions:', error);
+        //}
     };
 
     useEffect(() => {

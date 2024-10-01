@@ -4,6 +4,7 @@ import CardProduct, { Product } from "@/app/components/cardProduct";
 import service from "@/lib/service";
 import {useEffect, useState } from "react";
 import Filter from "../components/filter";
+import { productsData} from "../api/products";
 
 const Products = ({ searchParams }: any) => {
     const category = searchParams.category
@@ -11,18 +12,18 @@ const Products = ({ searchParams }: any) => {
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
     const [selectedColletions, setSelectedColletions] = useState<number[]>([]);
     const [selectedPrice, setSelectedPrice] = useState(0);
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<Product[]>(productsData);
     const [productsFilter, setProductsFilter] = useState<Product[]>([]);
     const [search, setSearch] = useState<string>("")
 
-    const fetchProducts = async () => {
-        try {
-            const products = await service.getData("products");
-            setProducts(products.products);
-        } catch (error) {
-            console.error('Erro ao buscar produtos:', error);
-        }
-    };
+    //const fetchProducts = async () => {
+    //    try {
+    //        //const products = await service.getData("products");
+    //        //setProducts(products.products);
+    //    } catch (error) {
+    //        console.error('Erro ao buscar produtos:', error);
+    //    }
+    //};
 
     const filterProducts = () => {
         if (selectedCategories.length === 0 && selectedPrice === 0 && search === "" && !selectedCategories) {
@@ -33,13 +34,11 @@ const Products = ({ searchParams }: any) => {
 
             if (selectedCategories.length > 0) {
                 response = response.filter((product) =>
-                    selectedCategories.includes(product.category_id));
+                selectedCategories.includes(product.category_id));
             }
 
             if (selectedColletions.length > 0) {
-                console.log("selectedColletions", selectedColletions)
-                console.log("products", response )
-                console.log(response = response.filter((product) => selectedColletions.includes(product.collection_of_product_id)))
+                response = response.filter((product) => selectedColletions.includes(product.collection_of_product_id))
             }
 
             if (selectedPrice > 0) {
@@ -75,9 +74,9 @@ const Products = ({ searchParams }: any) => {
         setSelectedPrice(value);
     };
 
-    useEffect(() => {
-        fetchProducts()
-    }, []);
+    //useEffect(() => {
+    //    fetchProducts()
+    //}, []);
 
     useEffect(() => {
         filterProducts();

@@ -7,8 +7,11 @@ export interface Product {
     description: string,
     image_urls: string[],
     category_id: number,
-    price: string,
+    price: number,
     collection_of_product_id: number,
+    size: number,
+    color: string,
+    delivery_time: string
 }
 
 const CardProduct: React.FC<{ product: Product }> = ({ product }) => {

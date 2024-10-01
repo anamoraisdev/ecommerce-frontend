@@ -3,7 +3,7 @@ import CardProduct, { Product } from "./cardProduct";
 import Link from "next/link";
 
 const Collection: React.FC<{ products: Product[], name: string , id:number}> = ({ products, name, id }) => {
-    console.log("key colletiomn", id)
+    
     return (
         <div>
             <section className="flex flex-col justify-center items-center gap-4 p-10  ">

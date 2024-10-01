@@ -32,7 +32,7 @@ const userContextDefaultValues: userContextType = {
     logout: () => { },
     error: null,
     registration: async (data:{ user: User }) => {
-        // Lógica padrão ou simulada para registro
+
         return Promise.resolve();
     }
 };
