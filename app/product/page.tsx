@@ -4,6 +4,7 @@ import service from "@/lib/service";
 import { Product } from "../components/cardProduct";
 import { useEffect, useState } from "react";
 import Carousel from "../components/carousel";
+import { productsData } from "../api/products";
 
 const Product = ({ searchParams }: any) => {
     const productId = searchParams.id
@@ -20,26 +21,29 @@ const Product = ({ searchParams }: any) => {
         }
     };
 
-    const fetchProduct = async () => {
-        try {
-            const product = await service.getData(`products/${productId}`);
-            setProduct(product);
-            console.log("product", product)
-        } catch (error) {
-            console.error('Erro ao buscar produtos:', error);
-        }
-    };
+
+   // const fetchProduct = async () => {
+    //    try {
+    //        const product = await service.getData(`products/${productId}`);
+    //        setProduct(product);
+    //        console.log("product", product)
+    //    } catch (error) {
+    //        console.error('Erro ao buscar produtos:', error);
+    //    }
+    //};
 
     useEffect(() => {
-        fetchProduct()
-    }, [])
+        //fetchProduct()
+        let productItem = productsData.find((item) => item.id == parseInt(productId)); 
+        setProduct(productItem);
+      }, [productId]);
 
 
     return (
         <div className="flex justify-around p-4">
             <div className="flex gap-2 m-10 ">
                 <div className="max-h-[30rem] overflow-y-scroll smooth-scroll" onScroll={(e) => handleScroll(e)}>
-                    {product?.image_urls.map((img, index) =>
+                    {product?.image_urls?.map((img, index) =>
                         <img
                             key={index}
                             className={`w-[30rem] transition-opacity duration-300 ${img !== currentImage ? "opacity-70" : ""}`}

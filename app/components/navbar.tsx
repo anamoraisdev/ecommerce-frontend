@@ -6,22 +6,23 @@ import { BiLogOut } from "react-icons/bi";
 
 import { useEffect, useState } from "react";
 import { useUser } from "../context/userContext";
+import { categoriesData } from "../api/categories";
 
 const Navbar = () => {
-    const [categories, setCategories] = useState<any[]>([]);
+    const [categories, setCategories] = useState<any[]>(categoriesData);
     const { user, logout } = useUser();
 
-    const fetchCategories = async () => {
-        try {
-            const categoriesData = await service.getData("categories");
-            setCategories(categoriesData);
-        } catch (error) {
-            console.error('Erro ao buscar categorias:', error);
-        }
-    };
-    useEffect(() => {
-        fetchCategories();
-    }, []);
+    //const fetchCategories = async () => {
+        //try {
+        //    const categoriesData = await service.getData("categories");
+        //    setCategories(categoriesData);
+        //} catch (error) {
+        //    console.error('Erro ao buscar categorias:', error);
+        //}
+    //};
+    //useEffect(() => {
+    //    fetchCategories();
+    //}, []);
     return (
         <main className="bg-primary w-full h-32 fixed-top flex items-center justify-between" >
             <h1 className="text-white mx-10">LOGOSTORE</h1>
