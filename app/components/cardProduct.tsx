@@ -1,6 +1,9 @@
 import Link from "next/link";
 import React from "react";
-
+interface Color {
+    name: string,
+    src: string
+}
 export interface Product {
     name: string,
     id: number,
@@ -10,8 +13,7 @@ export interface Product {
     price: number,
     collection_of_product_id: number,
     size: number,
-    color: string,
-    delivery_time: string
+    color: Color[],
 }
 
 const CardProduct: React.FC<{ product: Product }> = ({ product }) => {
