@@ -25,16 +25,6 @@ export default function Home() {
   const {user} = useUser();
   const [collections, setCollections] = useState<CollectionProduct[]>(collectionsData);
 
-  //const fetchCollections = async () => {
-  //  try {
-  //    const collections = await service.getData("collections_of_products");
-   //    setCollections(collections.collections_of_products);
-  //  } catch (error) {
-  //    console.error('Erro ao buscar coleções:', error);
-  //  }
-  //};
-
-  
   useEffect(() => {
     if (user) {
       console.log('User logado:', user);
