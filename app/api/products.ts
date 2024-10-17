@@ -22,8 +22,9 @@ export const productsData = [
         "size": 44,
         "color": [{"name": "Blue", "src":  "/assets/tenis5.jpeg"}, {"name": "Blue", "src":  "/assets/tenis5.jpeg"}],
         "price": 120.00,
-        "image_urls": ["/assets/tenis1.jpeg",
+        "image_urls": [
             "/assets/tenis2.jpeg",
+            "/assets/tenis1.jpeg",
             "/assets/tenis3.jpeg",
             "/assets/tenis4.jpeg",
             "/assets/tenis5.jpeg"],
@@ -37,9 +38,10 @@ export const productsData = [
         "size": 40,
         "color": [{"name": "Blue", "src":  "/assets/tenis5.jpeg"}, {"name": "Blue", "src":  "/assets/tenis5.jpeg"}],
         "price": 79.99,
-        "image_urls": ["/assets/tenis1.jpeg",
-            "/assets/tenis2.jpeg",
+        "image_urls": [
             "/assets/tenis3.jpeg",
+            "/assets/tenis1.jpeg",
+            "/assets/tenis2.jpeg",
             "/assets/tenis4.jpeg",
             "/assets/tenis5.jpeg"],
         "category_id": 1,
@@ -52,10 +54,11 @@ export const productsData = [
         "size": 41,
         "color": [{"name": "Blue", "src":  "/assets/tenis5.jpeg"}, {"name": "Blue", "src":  "/assets/tenis5.jpeg"}],
         "price": 89.99,
-        "image_urls": ["/assets/tenis1.jpeg",
+        "image_urls": [
+            "/assets/tenis4.jpeg",
+            "/assets/tenis1.jpeg",
             "/assets/tenis2.jpeg",
             "/assets/tenis3.jpeg",
-            "/assets/tenis4.jpeg",
             "/assets/tenis5.jpeg"],
         "category_id": 2,
         "collection_of_product_id": 2
@@ -67,11 +70,13 @@ export const productsData = [
         "size": 43,
         "color": [{"name": "Blue", "src":  "/assets/tenis5.jpeg"}, {"name": "Blue", "src":  "/assets/tenis5.jpeg"}],
         "price": 150.00,
-        "image_urls": ["/assets/tenis1.jpeg",
+        "image_urls": [
+            "/assets/tenis5.jpeg",
+            "/assets/tenis1.jpeg",
             "/assets/tenis2.jpeg",
             "/assets/tenis3.jpeg",
-            "/assets/tenis4.jpeg",
-            "/assets/tenis5.jpeg"],
+            "/assets/tenis4.jpeg"
+        ],
         "category_id": 1,
         "collection_of_product_id": 2
     }

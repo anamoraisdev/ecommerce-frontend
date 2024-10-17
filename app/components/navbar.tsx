@@ -35,7 +35,9 @@ const Navbar = () => {
                 {user &&
                     <div className="flex items-center gap-6 " >
                         <FiShoppingCart size={26} color="white" />
+                        <Link href="/profile?section=personal">
                         <FaRegUser size={24} color="white" />
+                        </Link>
                     </div>
                 }
 
