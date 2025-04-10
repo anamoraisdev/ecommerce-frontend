@@ -5,6 +5,7 @@ export const ordersData = [
         "code": "JD83HE9D",
         "status": "done",
         "price": 300.00,
+        "date": "17/07/2024",
         "products": [
           {"id": 1, "amount": 2},
           {"id": 2, "amount": 1},
@@ -18,6 +19,7 @@ export const ordersData = [
         "code": "SHJLMS09",
         "status": "progress",
         "price": 300.00,
+        "date": "17/07/2024",
         "products": [
           {"id": 1, "amount": 2},
           {"id": 4, "amount": 2}
@@ -29,6 +31,7 @@ export const ordersData = [
         "code": "GHKNE9D",
         "status": "pending",
         "price": 300.00,
+        "date": "17/07/2024",
         "products": [
           {"id": 3, "amount": 1},
           {"id": 4, "amount": 2}
