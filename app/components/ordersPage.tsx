@@ -3,18 +3,29 @@ import { useEffect, useState } from "react"
 import { ordersData } from "../api/pedidos"
 import { productsData } from "../api/products"
 import { Product } from "./cardProduct";
+import MenuOrders from "./menuOrders";
+import CardOrders from "./cardOrders";
 
-type Order = {
+export type Order = {
     id: number;
     code: string;
     status: string;
     price: number;
+    date: string;
     products: (Product & { amount: number })[];
+    recipientName: string;
+    shippingAddress: string;
+    shippingMethod: string;
+    trackingUrl: string;
+    trackingNumber: string
 };
 
 const Orders = () => {
     const [orders, setOrders] = useState<Order[]>([])
     const [filter, setFilter] = useState("")
+    const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+    const [showDetails, setShowDetails] = useState(false);
+
 
     const getOrdersProducts = () => {
         const updatedOrders = ordersData.map(order => {
@@ -30,9 +41,6 @@ const Orders = () => {
                 products: productsOrder
             };
         });
-
-        // Atualiza o estado com os pedidos formatados
-        console.log(updatedOrders)
         setOrders(updatedOrders);
     };
 
@@ -40,81 +48,82 @@ const Orders = () => {
         filter ? order.status === filter : true
     );
 
+    const handleCardClick = (order: Order) => {
+        setSelectedOrder(order);
+        setShowDetails(true);
+    };
+
     useEffect(() => {
         getOrdersProducts()
     }, [])
 
 
     return (
-        <>
-            <div className="flex flex-col">
-                <h1 className="text-sky-950 text-2xl font-bold">Meus pedidos</h1>
-                <p className="text-gray-500">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur mollitia quas vitae?</p>
-            </div>
+        <div className="relative overflow-hidden min-h-screen h-full">
+            <div className={` flex flex-col gap-4 transition-transform duration-500 ease-in-out transform ${showDetails ? "-translate-x-full" : "translate-x-0"}`}>
 
-            <div className="flex w-full gap-4">
-                <div className={`border rounded-r-full w-[9rem] h-[2.5rem] flex items-center justify-center ${filter === "pending" ? "text-white bg-sky-950": "bg-gray-100"}  text-gray-500 `}  onClick={() => setFilter('pending')}>Em preparação</div>
-                <div className={`border rounded-r-full w-[9rem] h-[2.5rem] flex items-center justify-center ${filter === "progress" ? "text-white bg-sky-950": "bg-gray-100"}  text-gray-500 `} onClick={() => setFilter('progress')}>A caminho</div>
-                <div className={`border rounded-r-full w-[9rem] h-[2.5rem] flex items-center justify-center ${filter === "done" ? "text-white bg-sky-950": "bg-gray-100"}  text-gray-500 `}  onClick={() => setFilter('done')}>Entregue</div>
-            </div>
-
-            <div>
-
+                <MenuOrders filter={filter} setFilter={setFilter} />
                 <div className="flex flex-col gap-2">
                     {filteredOrders.map((order) =>
+                        <CardOrders order={order} handleCardClick={handleCardClick} filter={filter} />
+                    )}
+                </div>
 
-                        <div className="flex gap-2 items-center w-full border">
-                            <div
-                                className={`grid ${order.products.length === 1
-                                    ? "grid-cols-1" // 1 produto, ocupa toda a largura
-                                    : order.products.length === 2 || order.products.length === 3
-                                        ? "grid-cols-2" // 2 ou 3 produtos, divide em 2 colunas
-                                        : "grid-cols-2" // 4 produtos, divide em 2 colunas
-                                    } w-[12rem] h-[10rem]`}
-                            >
-                                {order.products.slice(0, order.products.length === 3 ? 2 : order.products.length).map((product) => (
-                                    <img
-                                        key={product.id}
-                                        src={product.image_urls[0]}
-                                        alt={product.name}
-                                        className="w-full object-cover h-full"
-                                    />
-                                ))}
-                            </div>
 
-                            <div className="flex justify-between w-full text-gray-500 ">
-                                <div className="flex flex-col ">
-                                    <h3 className="font-bold text-lg">{order.code} </h3>
-                                    <h3 className="text-sm">Detalhe da compra</h3>
-                                    {order.products.map((product) =>
-                                        <div className="flex flex-col text-gray-500 text-xs gap-0.5">
-                                            <p><span>{product.amount}</span> {product.name}</p>
-                                        </div>
-
-                                    )}
-
-                                    <p className=" mt-1 text-sm"> Total: R${order.price},00</p>
-                                    <p className="undeline">ver mais</p>
-                                </div>
-                                <div className="flex flex-col gap-2 items-end justify-center pr-6">
-                                    <button className="border rounded-full w-[9rem] py-2">{filter === "done" ? "Confimar entrega" : filter === "pending" ? "Cancelar compra" : "Rastreiar pedido"}</button>
-                                    <button className="bg-sky-950 text-white rounded-full w-[9rem] py-2">Pedir reembolso</button>
+            </div>
+            {selectedOrder && (
+                <div className={`absolute inset-0 transition-transform duration-500 ease-in-out transform ${showDetails ? "translate-x-0" : "translate-x-full"}`}>
+                    <button onClick={() => setShowDetails(false)} className="">Voltar</button>
+                    <div className="w-full h-full flex flex-col gap-4">
+                        <h2 className="text-2xl font-semibold text-sky-950">Detalhes do Pedido</h2>
+                        { /* Informacoes basicas do pedido*/}
+                        <div className="flex items-start border rounded-lg">
+                            <div className="w-[30%] border-r h-full m-4">
+                                <h2 className="font-semibold text-gray-500">Dados do Pedido</h2>
+                                <div className="text-gray-700 gap-1">
+                                    <p className="">
+                                        <span className="">Número do Pedido:</span> {selectedOrder.code}
+                                    </p>
+                                    <p className="">
+                                        <span className="">Data do Pedido:</span> {selectedOrder.date}
+                                    </p>
+                                    <p className="">
+                                        <span className="">Status do Pedido:</span> {selectedOrder.status}
+                                    </p>
                                 </div>
 
-
                             </div>
+                            <div className="m-4">
+                                <h3 className=" font-semibold text-gray-500">Dados do Envio</h3>
+                                <div className="text-gray-700 gap-1">
+                                    <p className="">
+                                        <span className="font-medium">Nome do Destinatário:</span> {selectedOrder.recipientName}
+                                    </p>
+                                    <p className="">
+                                        <span className="font-medium">Endereço de Entrega:</span> {selectedOrder.shippingAddress}
+                                    </p>
+                                    <p className="">
+                                        <span className="font-medium">Transportadora:</span> {selectedOrder.shippingMethod}
+                                    </p>
+                                    <p className="">
+                                        <span className="font-medium">Rastreamento:</span>
+                                        <a href={selectedOrder.trackingUrl} className="text-sky-950 underline">
+                                            {selectedOrder.trackingNumber}
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+
+
                         </div>
 
 
-
-
-
-                    )}
+                    </div>
                 </div>
-            </div>
-        </>
-
+            )}
+        </div>
     )
 }
 
-export default Orders
+
+export default Orders;

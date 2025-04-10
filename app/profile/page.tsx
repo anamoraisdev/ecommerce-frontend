@@ -3,9 +3,10 @@ import Link from "next/link";
 import { useState, useEffect } from 'react';
 import Personal from "../components/personalPage";
 import Orders from "../components/ordersPage";
+import Order from "../components/order";
 
 const ProfileLayout = () => {
-    const [selectedOption, setSelectedOption] = useState<string| null>(null);
+    const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
@@ -23,9 +24,9 @@ const ProfileLayout = () => {
         }
         switch (selectedOption) {
             case 'personal':
-                return <Personal/>;
+                return <Personal />;
             case 'orders':
-                return <Orders/>
+                return <Orders />;
             case 'favorites':
                 return <h2>favorites Content</h2>;
             case 'cupons':
@@ -41,7 +42,7 @@ const ProfileLayout = () => {
         window.history.pushState({}, '', `/profile?section=${option}`);
     };
 
-  
+
     return (
         <div className="flex bg-gray-100 min-h-[calc(100vh-128px)] h-full">
             {/* Menu lateral */}

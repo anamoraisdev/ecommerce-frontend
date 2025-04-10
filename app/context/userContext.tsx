@@ -73,7 +73,7 @@ export function UserProvider({ children }: propsProvider) {
     const logout = () => {
         setUser(null);
         localStorage.removeItem("user");
-        window.location.href = 'http://localhost:3000/users/login';
+        window.location.href = 'http://localhost:4000/users/login';
     };
 
     const registration = async(data: { user: User }) => {
@@ -82,7 +82,7 @@ export function UserProvider({ children }: propsProvider) {
             const response = await service.postData("users", data);
             if (response.status === 201) {
                 console.log("response:", response.data.message)
-                window.location.href = 'http://localhost:3000/users/login';
+                window.location.href = 'http://localhost:4000/users/login';
             
             }
 
