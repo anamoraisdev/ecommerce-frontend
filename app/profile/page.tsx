@@ -1,9 +1,8 @@
 'use client'
 import Link from "next/link";
 import { useState, useEffect } from 'react';
-import Personal from "../components/personalPage";
-import Orders from "../components/ordersPage";
-import Order from "../components/order";
+import Personal from "./personalPage";
+import Orders from "./ordersPage";
 
 const ProfileLayout = () => {
     const [selectedOption, setSelectedOption] = useState<string | null>(null);

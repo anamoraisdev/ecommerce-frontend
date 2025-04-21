@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react"
 import { ordersData } from "../api/pedidos"
 import { productsData } from "../api/products"
-import { Product } from "./cardProduct";
-import MenuOrders from "./menuOrders";
-import CardOrders from "./cardOrders";
+import { Product } from "../components/cardProduct";
+import MenuOrders from "../components/menuOrders";
+import CardOrders from "../components/cardOrders";
+import Image from "next/image";
 
 export type Order = {
     id: number;
@@ -77,9 +78,9 @@ const Orders = () => {
                     <div className="w-full h-full flex flex-col gap-4">
                         <h2 className="text-2xl font-semibold text-sky-950">Detalhes do Pedido</h2>
                         { /* Informacoes basicas do pedido*/}
-                        <div className="flex items-start border rounded-lg">
-                            <div className="w-[30%] border-r h-full m-4">
-                                <h2 className="font-semibold text-gray-500">Dados do Pedido</h2>
+                        <div className="flex items-start border rounded-lg p-4 gap-2">
+                            <div className="w-[30%] border-r h-full">
+                                <h2 className="font-bold text-gray-500 text-lg">Dados do Pedido</h2>
                                 <div className="text-gray-700 gap-1">
                                     <p className="">
                                         <span className="">Número do Pedido:</span> {selectedOrder.code}
@@ -93,8 +94,8 @@ const Orders = () => {
                                 </div>
 
                             </div>
-                            <div className="m-4">
-                                <h3 className=" font-semibold text-gray-500">Dados do Envio</h3>
+                            <div className="">
+                                <h3 className=" font-bold text-gray-500 text-lg">Dados do Envio</h3>
                                 <div className="text-gray-700 gap-1">
                                     <p className="">
                                         <span className="font-medium">Nome do Destinatário:</span> {selectedOrder.recipientName}
@@ -117,6 +118,45 @@ const Orders = () => {
 
                         </div>
 
+
+                        {/* detalhe do pedido */}
+
+                        <div className="flex flex-col items-start border rounded-lg h-full">
+                            <h2 className="font-bold text-gray-500 text-lg m-4">Produtos</h2>
+
+                            {/*cabecalho */}
+                            <div className="flex w-[100%] m-4 ">
+                                <h3 className="w-[60%]">item</h3>
+                                <h3 className="w-[10%]">preço</h3>
+                                <h3 className="w-[20%]">quantidade</h3>
+                                <h3 className="w-[10%]">total</h3>
+                            </div>
+
+                            {/* produtos */}
+                            <div className="flex flex-col gap-10 m-4 w-[100%] ">
+                                {selectedOrder.products.map((product) =>
+
+                                    <div className="flex w-[100%]">
+                                        {/* item */}
+                                        <div className="flex gap-5 w-[60%]">
+                                            <Image src={product.image_urls[0]} alt={product.name} width={100} height={100}></Image>
+                                            <h4 className="font-bold text-gray-500 text-md">{product.name}</h4>
+                                        </div>
+
+                                        {/* preco */}
+                                        <h3 className="w-[10%]">{product.price}</h3>
+
+                                        {/* quantidade */}
+                                        <h3 className="w-[20%]">{product.amount}</h3>
+                                        {/* total */}
+                                        <h3 className="w-[10%]">{product.amount*product.price}</h3>
+                                    </div>
+                                )}
+
+                            </div>
+
+                            <div className="flex w-[100%] m-4"><h3 className="w-[85%]">total da compra</h3> <h3 className="w-[15%] text-center">{selectedOrder.price}</h3></div>
+                        </div>
 
                     </div>
                 </div>
