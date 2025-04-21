@@ -1,4 +1,4 @@
-import { Order } from "./ordersPage";
+import { Order } from "../profile/ordersPage";
 type CardOrdersProps = {
     order: Order;
     handleCardClick: (order: Order) => void;
